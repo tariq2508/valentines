@@ -82,7 +82,7 @@ yesBtn.addEventListener("click", () => {
   document.body.innerHTML = `
     <img src="happyDance.gif" alt="Happy Dance" style="max-width: 300px; margin-bottom: 20px;">
     <h1>Yayyyy 🥰💖</h1>
-    <p>You are officially my Valentine 😍</p>
+    <h2>You are officially my Valentine 😍</h2>
   `;
 });
 
