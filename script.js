@@ -26,13 +26,43 @@ function moveNoButton() {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
   const btnRect = noBtn.getBoundingClientRect();
+  const yesRect = yesBtn.getBoundingClientRect();
   
   // Calculate random position across entire viewport
   const maxX = viewportWidth - btnRect.width - 20;
   const maxY = viewportHeight - btnRect.height - 20;
   
-  const newX = Math.random() * maxX;
-  const newY = Math.random() * maxY;
+  let newX, newY;
+  let attempts_to_place = 0;
+  const max_attempts = 50;
+  
+  // Keep trying until we find a position that doesn't overlap with Yes button
+  do {
+    newX = Math.random() * maxX;
+    newY = Math.random() * maxY;
+    attempts_to_place++;
+    
+    // Check if the new position overlaps with Yes button
+    // Add padding of 20px around Yes button to create safe zone
+    const padding = 20;
+    const noRight = newX + btnRect.width;
+    const noBottom = newY + btnRect.height;
+    
+    const yesLeft = yesRect.left - padding;
+    const yesRight = yesRect.right + padding;
+    const yesTop = yesRect.top - padding;
+    const yesBottom = yesRect.bottom + padding;
+    
+    // Check if rectangles don't overlap
+    const noOverlap = (
+      noRight < yesLeft ||
+      newX > yesRight ||
+      noBottom < yesTop ||
+      newY > yesBottom
+    );
+    
+    if (noOverlap) break;
+  } while (attempts_to_place < max_attempts);
   
   // Position absolutely on the page
   noBtn.style.position = 'fixed';
